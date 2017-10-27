@@ -40,6 +40,6 @@ PRIVATE_CONFIG=tm7.conf nohup geth --datadir qdata/dd7 $GLOBAL_ARGS --raftport 5
 echo "[*] Waiting for nodes to start"
 sleep 10
 echo "[*] Sending first transaction"
-PRIVATE_CONFIG=tm1.conf geth --exec 'loadScript("script1.js")' attach qdata/dd1/geth.ipc
+PRIVATE_CONFIG=tm1.conf geth --exec 'loadScript("simple-storage.js")' attach qdata/dd1/geth.ipc
 
 echo "All nodes configured. See 'qdata/logs' for logs, and run e.g. 'geth attach qdata/dd1/geth.ipc' to attach to the first Geth node"
