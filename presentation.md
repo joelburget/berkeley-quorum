@@ -18,21 +18,35 @@ theme: Plain Jane, 4
 
 ---
 
-^ TODO: maybe more like "Ethereum provides... we need to change..."
+# Motivation: Ethereum as a starting point
+
+| Distributed Database | Public blockchain |
+| --- | --- |
+| closed, single operator | open, multiple operators |
+| trust among nodes | trustless, censorship resistant |
+| fast, capable of strong consistency | slow, eventual consistency |
+| store of mutable state | log of state transitions |
+
+---
 
 # Motivation: Ethereum as a starting point
 
-* Blockchain vs DLT
-* Modifications
+| Distributed Database | ... | Public blockchain |
+| --- | --- | --- |
+| closed, single operator | multiple known operators | open, multiple operators |
+| trust among nodes | accountability | trustless, censorship resistant |
+| fast, capable of strong consistency | strong, not eventual consistency | slow, eventual consistency |
+| store of mutable state | log of state transitions | log of state transitions |
 
---
-
-^ Use this to segue into consensus
+---
 
 # Motivation: Ethereum as a starting point
 
-Distributed Ledger: database shared among multiple participants
-Blockchain: One particular type of distributed ledger
+Also:
+
+* confidential transactions
+* real-world governance (tech _and_ law)
+* enterprise deployment + support
 
 ---
 
@@ -178,13 +192,37 @@ Peer-to-peer encrypted message exchange
 
 # Simple privacy: consensus with private state
 
+![inline](photos/private1.png)
+
+---
+
+# Simple privacy: consensus with private state
+
+![inline](photos/private2.png)
+
+---
+
+# Simple privacy: consensus with private state
+
+![inline](photos/private3.png)
+
+---
+
+# Simple privacy: consensus with private state
+
+![inline](photos/private4.png)
+
 ---
 
 # Simple privacy: Private -> Private
 
+TODO: private contracts can call other private contracts
+
 ---
 
 # Simple privacy: Private -> Public
+
+TODO: private contracts can call public contracts, but...
 
 ---
 
@@ -203,3 +241,12 @@ Peer-to-peer encrypted message exchange
 
 ---
 
+# ZSL: What is zero-knowledge proof?
+
+---
+
+# ZSL: Non-interactive zero-knowledge proof
+
+> a variant of zero-knowledge proofs in which no interaction is necessary between prover and verifier
+
+Intuition?
