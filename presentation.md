@@ -214,6 +214,33 @@ Peer-to-peer encrypted message exchange
 
 ---
 
+# Simple privacy: Creating a private contract
+
+```javascript
+var simple = simpleContract.new(42, {
+  from:web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+});
+```
+
+---
+
+# Simple privacy: Creating a private contract
+
+```javascript
+var simple = simpleContract.new(42, {
+  from:web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+
+  privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="]
+  //            <-             public key                 ->
+});
+```
+
+---
+
 # Simple privacy: Private -> Private
 
 TODO: private contracts can call other private contracts
