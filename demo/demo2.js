@@ -1,3 +1,6 @@
+// Create two private accounts visible to node 1 and node 7, then do a private
+// transaction reprensenting a transfer from 1 to 2.
+
 var account1 = null;
 var account2 = null;
 

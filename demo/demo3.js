@@ -1,3 +1,7 @@
+// Create a public contract and a private contract. A transfer from private to
+// public fails because private contracts can't modify public state. Can you
+// transfer from public to private?
+
 var pubAcct = null;
 var privAcct = null;
 

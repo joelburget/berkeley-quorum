@@ -1,3 +1,6 @@
+// Create a private contract representing an account. This is visible to the
+// sender (node 1) and node 7.
+
 var account = null;
 
 function createAccount() {
