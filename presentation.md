@@ -218,9 +218,13 @@ TODO: what is it
 
 ## Ethereum network
 
+^ We start with an ethereum network. These are five nodes building a blockchain.
+
 ![inline](photos/ethereum-network.png)
 
 ---
+
+^ Now add constellation nodes. Each of the constellation nodes is colocated with its quorum node and communicates peer-to-peer with other constellation nodes when necessary to share private, encrypted information.
 
 # Simple privacy: Constellation
 
@@ -232,11 +236,23 @@ Peer-to-peer encrypted message exchange
 
 ---
 
+^ A natural question to ask is, how do we arrive at consensus on private state?
+
+^ We have a list of transactions. The top three are public while the bottom two are private.
+
+^ For the private transactions we simply replace the payload / data with a hash of the encrypted data stored in our constellation enclave.
+
+^ TODO: we need to mention V twiddling
+
+^ In this slide, our quorum node (on the left) asks its constellation node for the private payload.
+
 # Simple privacy: consensus with private state
 
 ![inline](photos/private1.png)
 
 ---
+
+^ constellation knows this payload, so quorum can execute it
 
 # Simple privacy: consensus with private state
 
@@ -250,36 +266,11 @@ Peer-to-peer encrypted message exchange
 
 ---
 
+^ in this case constellation doesn't have the payload, so quorum skips excuting this transaction
+
 # Simple privacy: consensus with private state
 
 ![inline](photos/private4.png)
-
----
-
-# Simple privacy: Creating a private contract
-
-```javascript
-var simple = simpleContract.new(42, {
-  from:web3.eth.accounts[0],
-  data: bytecode,
-  gas: 300000,
-});
-```
-
----
-
-# Simple privacy: Creating a private contract
-
-```javascript
-var simple = simpleContract.new(42, {
-  from:web3.eth.accounts[0],
-  data: bytecode,
-  gas: 300000,
-
-  privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="]
-  //            <-             public key                 ->
-});
-```
 
 ---
 
@@ -288,7 +279,7 @@ var simple = simpleContract.new(42, {
 ## What's in a transaction?
 
 ```go
-data, err = private.P.Send(data, args.PrivateFrom, args.PrivateFor)
+data, err = private.P.Send(args.Data, args.PrivateFrom, args.PrivateFor)
 if err != nil {
 	return common.Hash{}, err
 }
@@ -297,19 +288,54 @@ args.Data = data
 
 ---
 
-# Simple privacy: Private -> Private
+^ TODO: change this to Account contract (this is also a good place to mention we don't use ether)
 
-TODO: private contracts can call other private contracts
+# Simple privacy: Creating a private contract
+
+```javascript
+var simple = accountContract.new(42, {
+  from: web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+});
+```
 
 ---
 
-# Simple privacy: Private -> Public
+# Simple privacy: Creating a private contract
 
-TODO: private contracts can call public contracts, but...
+```javascript
+var simple = accountContract.new(42, {
+  from: web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+
+  privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="]
+  //           <-               public key                 ->
+});
+```
 
 ---
 
-# Demo: Private -> Public -> Private call
+^ TODO: describe exactly how this works
+
+# Simple privacy: Calling other contracts
+
+* private contracts can call other private contracts
+
+* private contracts can call also call public contracts
+
+* but...
+
+---
+
+^ demo1: creating a private contract
+
+^ demo2: messaging between private contracts
+
+^ demo3: failure to call public from private contract
+
+# Simple privacy: demo
 
 ---
 
