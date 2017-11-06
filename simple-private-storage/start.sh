@@ -1,6 +1,5 @@
 #!/bin/bash
-set -u
-set -e
+set -eu
 
 GLOBAL_ARGS="--emitcheckpoints --nodiscover --raft --rpc --rpcaddr 0.0.0.0 --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum"
 
@@ -38,8 +37,6 @@ echo "[*] Starting node 7"
 PRIVATE_CONFIG=tm7.conf nohup geth --datadir qdata/dd7 $GLOBAL_ARGS --raftport 50407 --rpcport 22006 --port 21006 2>>qdata/logs/7.log &
 
 echo "[*] Waiting for nodes to start"
-sleep 10
-echo "[*] Sending first transaction"
-PRIVATE_CONFIG=tm1.conf geth --exec 'loadScript("simple-storage.js")' attach qdata/dd1/geth.ipc
+sleep 5
 
 echo "All nodes configured. See 'qdata/logs' for logs, and run e.g. 'geth attach qdata/dd1/geth.ipc' to attach to the first Geth node"
