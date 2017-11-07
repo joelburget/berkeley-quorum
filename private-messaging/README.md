@@ -4,7 +4,7 @@ This is an open-ended problem, to be done after running the demos (in the `demo`
 
 We will create a messaging app which supports private messaging. Think Slack or IRC, but blockchain-based. We'll start with the concept of a `Channel`, where messages can be sent.
 
-1. Create a `Channel` contract which other mailboxes can send messages to. This should have a means of receiving `string` messages.
+1. Create a `Channel` contract which other users can send messages to. This should have a means of receiving `string` messages.
 
 2. Build (in JavaScript):
 
