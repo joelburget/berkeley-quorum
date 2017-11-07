@@ -68,149 +68,15 @@ Also:
 
 ---
 
-# Consensus
-
----
-
-^ possible questions on proof of stake
-
-^ Proof of work is an economics-based security model. Your vote is weighted in proportion to the resources you're willing to contribute to the system. As long as no individual can amass enough resources to overrule, the system is secure.
-
-^ But what happens if we remove anonymity / add known identities?
-
-# Consensus: Proof of work
-
-* everyone is anonymous
-* mutual lack of trust
-* mining power as proxy for:
-  * investment in the network
-  * how much of the vote you get
-
-![inline](photos/btc-tx-cost.png)
-
----
-
-^ In a setting where we know everyone, this all becomes so much easier.
-
-^ This raises the question of what happens if someone tries to cheat. The idea is that I could call up my peer at the other bank and say "hey, the transactions you send were invalid." Or more realistically, alert a regulator. Or, the regulator's node, which is validating all transactions, automatically sends up a red flag.
-
-# Consensus: Enterprise
-
-* everyone is ~~anonymous~~ known
-* mutual ~~lack of~~ trust
-* mining is not necessary
-
----
-
-# Consensus: [Raft](https://raft.github.io/)
-
-> "Raft is a consensus algorithm that is designed to be easy to understand. It's equivalent to Paxos in fault-tolerance and performance."
-
----
-
-# Consensus: Raft
-
-* Formally verified protocol
-* We use the etcd implementation, which is written in Go and not verified, but mature
-
----
-
-^ Raft has a trusted leader and is vulnerable to censorship. we could add an "elect new leader" message, but this is a kludge.
-
-^ (only cover censorship on this slide)
-
-# Consensus: Raft strengths, weaknesses, and limitations
-
-* Censorship
-* Cluster size
-* Throughput / latency
-
----
-
-^ Clusters of 3 and 5 are typical in traditional raft deployments
-
-^ TODO: add max size
-
-# Consensus: Cluster size
-
-| Servers | Quorum Size | Failure Tolerance |
-|---|---|---|
-| 1 | 1 | 0 |
-| 2 | 2 | 0 |
-| 3 | 2 | 1 * |
-| 4 | 3 | 1 |
-| 5 | 3 | 2 * |
-| ... | ... | ... |
-
----
-
-^ We've done some testing which shows we can do about 1100 very simple transactions per second in good conditions. I believe the bottleneck is sequential contract execution. At the moment this is difficult to work around, though there is a proposal to add simple concurrency to the EVM. [TODO: verify this is the bottleneck]
-
-# Consensus: Throughput / Latency
-
-* Up to 1100 tx / s (ideal conditions)
-* 0 - 50 ms latency
-
----
-
-^ TODO: include link somewhere: https://github.com/jpmorganchase/quorum/blob/master/raft/doc.md
-
-^ TODO: diagram of transaction messaging / difference between txes and blocks / speculative chain
-
-^ Ethereum has the notion of miner, which we call the "minter". This lines up with Raft's notion of a leader.
-
-^ This is all completely opaque to applications running on top of Raft and Quorum
-
-^ Why do we do it this way? Two reasons:
-
-^ 1. Raft ensures there's only one leader at a time, and we want some way to have one miner at a time
-
-^ 2. This saves one network hop transmitting blocks from the Raft leader to the Ethereum miner
-
-^ [TODO: note on correctness: "Chain extension, races, and correctness"]
-
-# Consensus: Ethereum and Raft
-
-| Ethereum | Raft |
-| --- | --- |
-| ~~miner~~ minter | leader |
-| verifier | follower |
-
----
-
-# Consensus: Ethereum and Raft
-
-## "Speculative minting"
-
-* Mint every 50ms
-* Raft can take arbitrarily long to confirm blocks
-
----
-
-# Consensus: Istanbul BFT / PBFT
-
-TODO: what is it
-
----
-
-# Consensus: Istanbul BFT / PBFT
-
-## _Demo_
-
----
-
-# Consensus: New work
-
-* The Honey Badger of BFT Protocols - Miller, Xia, Croman, Shi, Song
-* Thunderella: Blockchains with Optimistic Instant Confirmation - Pass, Shi
+# Simple privacy
 
 ---
 
 # Simple privacy
 
----
+Two separate state trees
 
-# Simple privacy: types of private state in Quorum
+![inline](photos/separate-state.png)
 
 ---
 
@@ -288,12 +154,12 @@ args.Data = data
 
 ---
 
-^ TODO: change this to Account contract (this is also a good place to mention we don't use ether)
+^ mention we don't use ether
 
 # Simple privacy: Creating a private contract
 
 ```javascript
-var simple = accountContract.new(42, {
+var simple = checkingAccountContract.new(42, {
   from: web3.eth.accounts[0],
   data: bytecode,
   gas: 300000,
@@ -305,7 +171,7 @@ var simple = accountContract.new(42, {
 # Simple privacy: Creating a private contract
 
 ```javascript
-var simple = accountContract.new(42, {
+var simple = checkingAccountContract.new(42, {
   from: web3.eth.accounts[0],
   data: bytecode,
   gas: 300000,
@@ -336,6 +202,160 @@ var simple = accountContract.new(42, {
 ^ demo3: failure to call public from private contract
 
 # Simple privacy: demo
+
+---
+
+# Consensus
+
+---
+
+^ possible questions on proof of stake
+
+^ Proof of work is an economics-based security model. Your vote is weighted in proportion to the resources you're willing to contribute to the system. As long as no individual can amass enough resources to overrule, the system is secure.
+
+^ But what happens if we remove anonymity / add known identities?
+
+# Consensus: Proof of work
+
+* everyone is anonymous
+* mutual lack of trust
+* mining power as proxy for:
+  * investment in the network
+  * how much of the vote you get
+
+![inline](photos/btc-tx-cost.png)
+
+---
+
+^ In a setting where we know everyone, this all becomes so much easier.
+
+^ This raises the question of what happens if someone tries to cheat. The idea is that I could call up my peer at the other bank and say "hey, the transactions you send were invalid." Or more realistically, alert a regulator. Or, the regulator's node, which is validating all transactions, automatically sends up a red flag.
+
+# Consensus: Enterprise
+
+* everyone is ~~anonymous~~ known
+* mutual ~~lack of~~ trust
+* mining is not necessary
+
+---
+
+# Consensus: [Raft](https://raft.github.io/)
+
+> "Raft is a consensus algorithm that is designed to be easy to understand. It's equivalent to Paxos in fault-tolerance and performance."
+
+---
+
+# Consensus: Raft
+
+* Formally verified protocol
+* We use the etcd implementation, which is written in Go and not verified, but mature
+
+---
+
+^ Raft has a trusted leader and is vulnerable to censorship. we could add an "elect new leader" message, but this is a kludge.
+
+^ (only cover censorship on this slide)
+
+# Consensus: Raft strengths, weaknesses, and limitations
+
+* Censorship
+* Cluster size
+* Throughput / latency
+* No forking
+
+---
+
+^ Clusters of 3 and 5 are typical in traditional raft deployments
+
+^ TODO: add max size
+
+^ note that quorum is not Quorum
+
+# Consensus: Cluster size
+
+| Servers | Quorum Size (majority) | Failure Tolerance |
+|---|---|---|
+| 1 | 1 | 0 |
+| 2 | 2 | 0 |
+| 3 | 2 | 1 * |
+| 4 | 3 | 1 |
+| 5 | 3 | 2 * |
+| ... | ... | ... |
+
+---
+
+^ We've done some testing which shows we can do about 1100 very simple transactions per second in good conditions. I believe the bottleneck is sequential contract execution. At the moment this is difficult to work around, though there is a proposal to add simple concurrency to the EVM. [TODO: verify this is the bottleneck]
+
+# Consensus: Throughput / Latency
+
+* Up to 1100 tx / s (ideal conditions)
+* 0 - 50 ms latency
+
+---
+
+^ TODO: include link somewhere: https://github.com/jpmorganchase/quorum/blob/master/raft/doc.md
+
+^ TODO: diagram of transaction messaging / difference between txes and blocks / speculative chain
+
+^ Ethereum has the notion of miner, which we call the "minter". This lines up with Raft's notion of a leader.
+
+^ This is all completely opaque to applications running on top of Raft and Quorum
+
+^ Why do we do it this way? Two reasons:
+
+^ 1. Raft ensures there's only one leader at a time, and we want some way to have one miner at a time
+
+^ 2. This saves one network hop transmitting blocks from the Raft leader to the Ethereum miner
+
+^ [TODO: note on correctness: "Chain extension, races, and correctness"]
+
+# Consensus: Ethereum and Raft
+
+| Ethereum | Raft |
+| --- | --- |
+| ~~miner~~ minter | leader |
+| verifier | follower |
+
+---
+
+# Consensus: Ethereum and Raft
+
+## "Speculative minting"
+
+* Mint every 50ms
+* Raft can take arbitrarily long to confirm blocks
+
+---
+
+# Consensus: Istanbul BFT
+
+* Based on PBFT [Castro-Liskov 99]
+* Up to `F` of `N` faulty nodes (`N = 3F + 1`)
+* Doesn't scale to as many nodes
+* Censorship resistant
+
+![inline](photos/amis.png)
+
+---
+
+# Consensus: Istanbul BFT
+
+## _Demo_
+
+---
+
+^ bft + bigger networks + more efficient
+
+# Consensus: New work
+
+* The Honey Badger of BFT Protocols - Miller, Xia, Croman, Shi, Song
+* Thunderella: Blockchains with Optimistic Instant Confirmation - Pass, Shi
+
+---
+
+# Appendix
+
+If we have time
 
 ---
 
