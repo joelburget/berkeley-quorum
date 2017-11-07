@@ -4,11 +4,11 @@
 var account = null;
 
 function createAccount() {
-  account = accountContract.new(
+  account = checkingAccountContract.new(
     42,
     {
       from: gethAcct,
-      data: accountBytecode,
+      data: checkingAccountBytecode,
       gas: 300000,
       privateFor: [key7]
     },
