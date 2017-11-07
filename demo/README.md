@@ -2,15 +2,23 @@
 
 ## Installing Quorum
 
-First install [Quorum](https://github.com/jpmorganchase/quorum#quickstart). The quickstart recommends using VirtualBox and Vagrant, but if you're familiar with go you can install Quorum directly in your host OS without a VM.
+First install [Quorum](https://github.com/jpmorganchase/quorum#quickstart). I recommend following the [quickstart](https://github.com/jpmorganchase/quorum-examples), which creates a dev environment inside VirtualBox / Vagrant.
+
+It's also possible to install directly on your host OS without a VM.
+
+1. Install the `geth` (Quorum) binary.
 
 ```
-> git clone git@github.com:jpmorganchase/quorum.git $GOPATH/src/github.com/ethereum/go-ethereum
-> cd $GOPATH/src/github.com/ethereum/go-ethereum
-> go get ./cmd/geth
-> # or, if that doesn't work:
+> git clone git@github.com:jpmorganchase/quorum.git
+> cd quorum
 > make
 ```
+
+2. Install [constellation](https://github.com/jpmorganchase/constellation).
+
+If you're on Mac and see an error about linking libsodium, try 1.0.11, which is old.
+
+With those two binaries (`geth` and `constellation-node`) in your path, you can get started.
 
 ## Running the demo
 
