@@ -4,14 +4,14 @@
 var account1 = null;
 var account2 = null;
 
-function createAccounts() {
-  var opts = {
-    from: gethAcct,
-    data: accountBytecode,
-    gas: 300000,
-    privateFor: [key7],
-  };
+var opts = {
+  from: gethAcct,
+  data: accountBytecode,
+  gas: 300000,
+  privateFor: [key7],
+};
 
+function createAccounts() {
   account1 = accountContract.new(1000, opts, createCb("account 1"));
   account2 = accountContract.new(2000, opts, createCb("account 2"));
 }
@@ -22,7 +22,6 @@ function doTransfer() {
     500, // amount
     {
       from: gethAcct,
-      to: account1.address,
       gas: 300000,
       privateFor: [key7],
     },

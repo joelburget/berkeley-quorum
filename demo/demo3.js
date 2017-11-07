@@ -30,7 +30,6 @@ function doTransfer() {
     500, // amount
     {
       from: gethAcct,
-      to: privAcct.address,
       gas: 300000,
       privateFor: [key7],
     },
