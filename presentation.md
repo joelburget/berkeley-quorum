@@ -90,7 +90,35 @@ Two separate state trees
 
 ---
 
+# Simple privacy: Constellation
+
+^ it's a blockchain on a machine
+
+One node.
+
+![inline](photos/one-ethereum-node.png)
+
+---
+
+# Simple privacy: Constellation
+
+^ We add a private enclave
+
+^ constellation holds encrypted private data
+
+^ quorum can send or request private data
+
+With a private enclave.
+
+![inline](photos/one-quorum-node.png)
+
+---
+
 ^ Now add constellation nodes. Each of the constellation nodes is colocated with its quorum node and communicates peer-to-peer with other constellation nodes when necessary to share private, encrypted information.
+
+^ quorum nodes communicate in a network
+
+^ constellation nodes do too
 
 # Simple privacy: Constellation
 
@@ -99,6 +127,43 @@ Two separate state trees
 Peer-to-peer encrypted message exchange
 
 ![inline](photos/quorum-network.png)
+
+---
+
+^ mention we don't use ether
+
+# Simple privacy: Creating a private contract
+
+```javascript
+var simple = checkingAccountContract.new(42, {
+  from: web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+});
+```
+
+---
+
+^ we probably include a regulator in all private txes
+
+# Simple privacy: Creating a private contract
+
+```javascript
+var simple = checkingAccountContract.new(42, {
+  from: web3.eth.accounts[0],
+  data: bytecode,
+  gas: 300000,
+
+  privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="]
+  //           <-               public key                 ->
+});
+```
+
+---
+
+# Simple privacy: Creating a private contract
+
+![inline](photos/give-private-data.png)
 
 ---
 
@@ -115,6 +180,22 @@ Peer-to-peer encrypted message exchange
 # Simple privacy: consensus with private state
 
 ![inline](photos/private1.png)
+
+---
+
+^ each quorum node asks for the private data
+
+# Simple privacy: consensus with private state
+
+![inline](photos/do-you-have-it.png)
+
+---
+
+# Simple privacy: consensus with private state
+
+Who has this payload?
+
+![inline](photos/who-has-data.png)
 
 ---
 
@@ -137,49 +218,6 @@ Peer-to-peer encrypted message exchange
 # Simple privacy: consensus with private state
 
 ![inline](photos/private4.png)
-
----
-
-# Simple privacy: more details
-
-## What's in a transaction?
-
-```go
-data, err = private.P.Send(args.Data, args.PrivateFrom, args.PrivateFor)
-if err != nil {
-	return common.Hash{}, err
-}
-args.Data = data
-```
-
----
-
-^ mention we don't use ether
-
-# Simple privacy: Creating a private contract
-
-```javascript
-var simple = checkingAccountContract.new(42, {
-  from: web3.eth.accounts[0],
-  data: bytecode,
-  gas: 300000,
-});
-```
-
----
-
-# Simple privacy: Creating a private contract
-
-```javascript
-var simple = checkingAccountContract.new(42, {
-  from: web3.eth.accounts[0],
-  data: bytecode,
-  gas: 300000,
-
-  privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="]
-  //           <-               public key                 ->
-});
-```
 
 ---
 
@@ -236,6 +274,19 @@ var simple = checkingAccountContract.new(42, {
 * everyone is ~~anonymous~~ known
 * mutual ~~lack of~~ trust
 * mining is not necessary
+
+---
+
+# Consensus: Raft
+
+What does a consensus mechanism do?
+
+| | |
+|---|---|
+| 1 | a = 1 |
+| 2 | b = 2 |
+| 3 | a = 100 |
+| 4 | c = 5 |
 
 ---
 
@@ -338,18 +389,16 @@ var simple = checkingAccountContract.new(42, {
 
 ---
 
-# Consensus: Istanbul BFT
-
-## _Demo_
-
----
-
 ^ bft + bigger networks + more efficient
 
 # Consensus: New work
 
 * The Honey Badger of BFT Protocols - Miller, Xia, Croman, Shi, Song
 * Thunderella: Blockchains with Optimistic Instant Confirmation - Pass, Shi
+
+---
+
+### `assert(presentationEnded);`
 
 ---
 
