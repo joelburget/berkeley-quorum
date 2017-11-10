@@ -15,9 +15,9 @@ theme: Plain Jane, 4
 
 ^ I'll discuss two different use cases
 
-^ First, an information sharing network. For global payments, banks are required to share information about the sender and recipient, to prevent eg money laundering, terrorism funding, fraud, etc. We don't want to broadcast all this information, obviously. Instead, we want a model with peer-to-peer privacy. TODO: why a blockchain? regulation?
+^ First, an information sharing network. For global payments, banks are required to share information about the sender and recipient, to prevent eg money laundering, terrorism funding, fraud, etc. We don't want to broadcast all this information, obviously. Instead, we want a model with peer-to-peer privacy. We use a blockchain so everyone in the network owns it and to make regulation easier.
 
-^ Credit Default Swap: As a concrete example, consider some bank which has lent money to a business, ACME. They receive payment from ACME, but lose the entire amount if ACME defaults. To hedge against this risk, they use a CDS. Imagine now some hedge fund can buy this "credit default swap". The hedge fund receives some amount of money every month from the bank, but in exchange they promise to pay the entirety of the loan if ACME defaults. Thus the hedge fund makes some money by taking on this risk, while the bank is insured. TODO: diagram
+^ Credit Default Swap: As a concrete example, consider some bank which has lent money to a business, ACME. They receive payment from ACME, but lose the entire amount if ACME defaults. To hedge against this risk, they use a CDS. Imagine now some hedge fund can buy this "credit default swap". The hedge fund receives some amount of money every month from the bank, but in exchange they promise to pay the entirety of the loan if ACME defaults. Thus the hedge fund makes some money by taking on this risk, while the bank is insured.
 
 ^ I imagine the way this currently operates (I'm not an expert) is that each organization maintains a database of the CDSes they're engaged in. When a swap is triggered, both counterparties need to agree and execute it.
 
@@ -27,6 +27,8 @@ theme: Plain Jane, 4
 
 * Interbank Information Network
 * Credit Default Swap
+
+![inline](photos/cds.png)
 
 ---
 
@@ -173,7 +175,7 @@ var simple = checkingAccountContract.new(42, {
 
 ^ For the private transactions we simply replace the payload / data with a hash of the encrypted data stored in our constellation enclave.
 
-^ TODO: we need to mention V twiddling
+^ possibly mention V twiddling
 
 ^ In this slide, our quorum node (on the left) asks its constellation node for the private payload.
 
@@ -213,7 +215,7 @@ Who has this payload?
 
 ---
 
-^ in this case constellation doesn't have the payload, so quorum skips excuting this transaction
+^ in this case constellation doesn't have the payload, so quorum skips executing this transaction
 
 # Simple privacy: consensus with private state
 
@@ -221,13 +223,11 @@ Who has this payload?
 
 ---
 
-^ TODO: describe exactly how this works
-
 # Simple privacy: Calling other contracts
 
 * private contracts can call other private contracts
 
-* private contracts can call also call public contracts
+* private contracts can also call public contracts
 
 * but...
 
@@ -318,7 +318,7 @@ What does a consensus mechanism do?
 
 ^ Clusters of 3 and 5 are typical in traditional raft deployments
 
-^ TODO: add max size
+^ tested with dozens of nodes
 
 ^ note that quorum is not Quorum
 
@@ -335,7 +335,7 @@ What does a consensus mechanism do?
 
 ---
 
-^ We've done some testing which shows we can do about 1100 very simple transactions per second in good conditions. I believe the bottleneck is sequential contract execution. At the moment this is difficult to work around, though there is a proposal to add simple concurrency to the EVM. [TODO: verify this is the bottleneck]
+^ We've done some testing which shows we can do about 1100 very simple transactions per second in good conditions. I believe the bottleneck is sequential contract execution. At the moment this is difficult to work around, though there is a proposal to add simple concurrency to the EVM.
 
 # Consensus: Throughput / Latency
 
@@ -343,8 +343,6 @@ What does a consensus mechanism do?
 * 0 - 50 ms latency
 
 ---
-
-^ TODO: include link somewhere: https://github.com/jpmorganchase/quorum/blob/master/raft/doc.md
 
 ^ TODO: diagram of transaction messaging / difference between txes and blocks / speculative chain
 
@@ -356,7 +354,7 @@ What does a consensus mechanism do?
 
 ^ 1. Raft ensures there's only one leader at a time, and we want some way to have one miner at a time
 
-^ 2. This saves one network hop transmitting blocks from the Raft leader to the Ethereum miner
+^ 2. This has the most efficient network usage.
 
 ^ [TODO: note on correctness: "Chain extension, races, and correctness"]
 
