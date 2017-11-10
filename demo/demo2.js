@@ -7,13 +7,13 @@ var account7 = null;
 var opts = {
   from: gethAcct,
   data: checkingAccountBytecode,
-  gas: 300000,
+  gas: enoughGas,
   privateFor: [key7],
 };
 
 function createAccounts() {
   account1 = checkingAccountContract.new(1000, opts, createCb("account 1"));
-  account7 = checkingAccountContract.new(2000, opts, createCb("account 7"));
+  account7 = checkingAccountContract.new(1000, opts, createCb("account 7"));
 }
 
 function doTransfer() {
@@ -22,7 +22,7 @@ function doTransfer() {
     500, // amount
     {
       from: gethAcct,
-      gas: 300000,
+      gas: enoughGas,
       privateFor: [key7],
     },
     function(e, addr) {
@@ -36,6 +36,6 @@ function doTransfer() {
 }
 
 function showBalances() {
-  console.log("account 1", account1.query());
-  console.log("account 7", account7.query());
+  console.log("account 1:", account1.queryBalance());
+  console.log("account 7:", account7.queryBalance());
 }

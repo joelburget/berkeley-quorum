@@ -9,7 +9,7 @@ function createAccount() {
     {
       from: gethAcct,
       data: checkingAccountBytecode,
-      gas: 300000,
+      gas: enoughGas,
       privateFor: [key7]
     },
     createCb("contract")

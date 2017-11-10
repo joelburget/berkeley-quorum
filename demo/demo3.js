@@ -1,44 +1,47 @@
-// Create a public contract and a private contract. A transfer from private to
-// public fails because private contracts can't modify public state. Can you
-// transfer from public to private?
+// Create a public stock ticker contract and a private account contract. The
+// private contract calls the public contract successfullly since it only
+// reads.
 
-var pubAcct = null;
+var ticker = null;
 var privAcct = null;
 
 function createAccounts() {
-  var pubOpts = {
+  var tickerOpts = {
     from: gethAcct,
-    data: checkingAccountBytecode,
-    gas: 300000,
+    data: tickerBytecode,
+    gas: enoughGas,
   };
-  var privOpts = {
+
+  var acctOpts = {
     from: gethAcct,
     data: checkingAccountBytecode,
-    gas: 300000,
+    gas: enoughGas,
     privateFor: [key7],
   };
 
-  pubAcct  = checkingAccountContract.new(1000, pubOpts,  createCb("ticker"));
-  privAcct = checkingAccountContract.new(2000, privOpts, createCb("private account"));
+  ticker   = tickerContract.new(423, tickerOpts, createCb("stock ticker"));
+  privAcct = checkingAccountContract.new(2000, acctOpts, createCb("private account"));
 }
 
-function doTransfer() {
-  // Attempt transfer from private account to public. This fails.
-
-  pubAcct.transferTo.sendTransaction(
-    privAcct.address, // recipient
-    500, // amount
+function issueDividends() {
+  privAcct.addDividends.sendTransaction(
+    ticker.address, // recipient
     {
       from: gethAcct,
-      gas: 300000,
+      gas: enoughGas * 100,
       privateFor: [key7],
     },
     function(e, addr) {
       if (e) {
-        console.log("err sending transfer", e);
+        console.log("err issuing dividends", e);
       } else {
-        console.log("transfer transaction send: TransactionHash: " + addr);
+        console.log("dividend issuance transaction send: TransactionHash: " + addr);
       }
     }
   );
+}
+
+function showBalances() {
+  console.log("ticker:", ticker.getPrice());
+  console.log("private account 7:", privAcct.queryBalance());
 }

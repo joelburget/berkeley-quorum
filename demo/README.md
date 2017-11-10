@@ -56,6 +56,6 @@ contract transaction send: TransactionHash: 0xc6e8d88ef01bcff05e0133631e96351256
 undefined
 > contract mined! Address: 0x1349f3e1b8d71effb47b840594ff27da7e603d17
 
-> account.query()
+> account.queryBalance()
 42
 ```
